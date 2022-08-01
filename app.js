@@ -14,7 +14,7 @@ const { render } = require('ejs');
 const app = express();
 
 // Database connection
-const dbURI = 'mongodb+srv://ankit:ankit12345@node-app-cluster.fg3es.mongodb.net/blogApp?retryWrites=true&w=majority';
+const dbURI = 'mongodb+srv://ankit:ankit12345@node-app-cluster.fg3es.mongodb.net/?retryWrites=true&w=majority';
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true})
     .then((result) => app.listen(process.env.PORT || 3000))
     .catch((err) => console.log(err));
