@@ -23,12 +23,9 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true})
 
 // register view engine
 app.set('view engine', 'ejs');
-// if u have stored your view files in folder other than views then
-// app.set('views', 'myviews');
 
 // listen for requests
 // app.listen(3000); it is now inside the database connection logic
-
 
 // Static files
 app.use(express.static('public'));
@@ -40,80 +37,14 @@ app.use(express.urlencoded({ extended: true }));
 // Using Middleware morgan
 app.use(morgan('dev'));
 
-// mongoose and mongo sandbox routes
-// app.get('/add-blog', (req, res) => {
-//     const blog = new Blog({
-//         title: 'new blog 2',
-//         snippet: 'about my new blog',
-//         body: 'more an-bout my new blog'
-//     });
-
-//     blog.save()
-//         .then((result) => {
-//             res.send(result);
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//         })
-// })
-
-// All blogs
-// app.get('/all-blogs', (req, res) => {
-//     Blog.find()
-//         .then((result) => {
-//             res.send(result);
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//         });
-// })
-
-// app.get('/single-blog', (req, res) => {
-//     Blog.findById('6130bac6d697c40ffd73dee6')
-//         .then((result) => {
-//             res.send(result);
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//         });
-// })
-
-// creating middleware
-// app.use((req, res, next) => {
-//     console.log('new request made: ');
-//     console.log('host: ', req.hostname);
-//     console.log('path: ', req.path);
-//     console.log('method: ', req.method);
-//     next();
-// });
-
-// app.use((req, res, next) => {
-//     console.log('in the next middleware');
-//     next();
-// });
-
-
 //// Routes 
 app.get('/', (req, res) => {
-    // res.send('<h1>Home Page</h1>');
-    // res.sendFile('./views/index.html', {root: __dirname});
-    // second parameter is defining the root to which it is relative to
-    // const blogs = [
-    //     {title: 'I am a good boy', snippet: 'Neque porro quisquam est qui dolorem'},
-    //     {title: 'I am a good girl', snippet: 'Neque porro quisquam est qui dolorem'},
-    //     {title: 'I am a good baby', snippet: 'Neque porro quisquam est qui dolorem'}
-    // ]
-
-    // Using the view engine
-    // res.render('index', {title: 'Home', blogs: blogs});
 
     // redirected to the /blogs page
     res.redirect('blogs');
 });
 
 app.get('/about', (req, res) => {
-    // res.sendFile('./views/about.html', {root: __dirname});
-    // we can also use path function here
 
     // Using the view engine
     res.render('about', {title: 'About'});
@@ -134,6 +65,8 @@ app.get('/blogs', (req, res) => {
 
 // saving the blog to db
 app.post('/blogs', (req, res) => {
+    // console.log(req.body);
+    
     const blog = new Blog(req.body);
     blog.save()
         .then((result) => {
@@ -142,6 +75,7 @@ app.post('/blogs', (req, res) => {
         .catch((err) => {
             console.log(err)
         });
+
 })
 
 
