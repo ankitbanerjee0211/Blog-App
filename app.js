@@ -6,6 +6,12 @@ const morgan = require('morgan');
 // Including mongoose
 const mongoose = require('mongoose');
 
+// Including Multer - for image upload
+const multer = require('multer');
+
+// Importing file system
+const fs = require('fs');
+
 // Including mongoose schema
 const Blog = require('./models/blog');
 const { render } = require('ejs');
@@ -20,6 +26,20 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true})
     .catch((err) => console.log(err));
 // Using mongoose
 
+// Storage for cover images
+var Storage = multer.diskStorage({
+    
+    destination: (req, file, cb) => {
+        cb(null, 'public')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    },
+});
+
+const upload = multer({
+    storage: Storage
+});
 
 // register view engine
 app.set('view engine', 'ejs');
@@ -64,17 +84,26 @@ app.get('/blogs', (req, res) => {
 })
 
 // saving the blog to db
-app.post('/blogs', (req, res) => {
-    // console.log(req.body);
+app.post('/blogs', upload.single('coverimage') , (req, res) => {
+    console.log(req.body);
     
-    const blog = new Blog(req.body);
-    blog.save()
-        .then((result) => {
-            res.redirect('/blogs')
-        })
-        .catch((err) => {
-            console.log(err)
-        });
+    // const blog = new Blog(req.body);
+    const newImage = new Blog({
+        title: req.body.title,
+        coverimage: req.file.originalname,
+        snippet: req.body.snippet,
+        author: req.body.author,
+        body: req.body.body,
+    });
+
+
+    newImage.save()
+    .then((result) => {
+        res.redirect('/blogs')
+    })
+    .catch((err) => {
+        console.log(err)
+    });
 
 })
 
