@@ -7,8 +7,9 @@
     <!-- Navbar -->
     <%- include('./partials/nav.ejs')  %> 
 
-    <div class="blogs content">
+    <div class="blogs section">
         <h2>All Blogs</h2>
+        <hr>
 
         <% if (blogs.length > 0) { %>
             <% blogs.forEach(blog => { %>

@@ -7,9 +7,10 @@
     <!-- Navbar -->
     <%- include('./partials/nav.ejs')  %> 
 
-    <div class="details content">
-        <h2><%= blog.title %></h2>
-        <h4> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <%= blog.author %></h4>
+    <div class="details section">
+        <h2 class="title-name"><%= blog.title %></h2>
+        <h5 class="author-name"> - <%= blog.author %></h5>
+        <hr>
         <img src="/<%- blog.coverimage %>" class="blog_cover_image">
         <div class="content">
             <%- blog.body %>
