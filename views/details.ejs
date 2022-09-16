@@ -64,10 +64,12 @@
             let un = prompt("Please enter your username: ", "username");
             let pw = prompt("Please enter your password: ", "password");
             
+            let flag = false;
             for (let i = 0; i < namelist.length; i++) {
                 console.log(namelist[i]);
                 console.log(pwlist[i]);
                 if(namelist[i] == un && pwlist[i] == pw){
+                    flag = true;
                     fetch(endpoint, {
                         method: 'DELETE'
                     })
@@ -75,6 +77,10 @@
                     .then((data) => window.location.href = data.redirect)
                     .catch(err => console.log(err))
                 }
+            }
+
+            if(!flag){
+                alert("Only Editors can Delete any blog.\nIf you are an editor please check the username and password again.")
             }
 
         })
