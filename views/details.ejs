@@ -7,6 +7,16 @@
     <!-- Navbar -->
     <%- include('./partials/nav.ejs')  %> 
 
+    <% var namelist = []; %> 
+    <% var pwlist = []; %> 
+
+    <% if (editors.length > 0) { %>
+        <% editors.forEach(editor => { %>
+            <% namelist[namelist.length] = editor.username; %>
+            <% pwlist[pwlist.length] = editor.password; %>
+        <% }) %>
+    <% } %>
+
     <div class="details section">
         <h2 class="title-name"><%= blog.title %></h2>
         <h5 class="author-name"> - <%= blog.author %></h5>
@@ -18,23 +28,60 @@
         <a class="delete" data-doc="<%= blog._id %> ">Delete</a>
     </div>
 
-    <!-- Footer -->
-    <%- include('./partials/footer.ejs')  %> 
-
+    
     <script>
         // This script tag is running on browser
         // Frontend javascript this is
+        let nameStr = "<%= namelist %>";
+        let pwStr = "<%= pwlist %>";
+        let namelist = [];
+        let pwlist = [];
+
+        let i=0;
+        for(let j=0; j<nameStr.length; j++){
+            if(nameStr.charAt(j) == ','){
+                namelist.push(nameStr.substring(i, j));
+                i = j+1;
+            }
+        }
+        namelist.push(nameStr.substring(i));
+        console.log(namelist);
+
+        i=0;
+        for(let j=0; j<pwStr.length; j++){
+            if(pwStr.charAt(j) == ','){
+                pwlist.push(pwStr.substring(i, j));
+                i = j+1;
+            }
+        }
+        pwlist.push(pwStr.substring(i));
+        console.log(pwlist);
+
         const trashcan = document.querySelector('a.delete');
         trashcan.addEventListener('click', (e) => {
             const endpoint = `/blogs/${trashcan.dataset.doc}`;
 
-            fetch(endpoint, {
-                method: 'DELETE'
-            })
-                .then((response) => response.json()) //response.json parses the json data back to js
-                .then((data) => window.location.href = data.redirect)
-                .catch(err => console.log(err));
+            let un = prompt("Please enter your username: ", "username");
+            let pw = prompt("Please enter your password: ", "password");
+            
+            for (let i = 0; i < namelist.length; i++) {
+                console.log(namelist[i]);
+                console.log(pwlist[i]);
+                if(namelist[i] == un && pwlist[i] == pw){
+                    fetch(endpoint, {
+                        method: 'DELETE'
+                    })
+                    .then((response) => response.json()) //response.json parses the json data back to js
+                    .then((data) => window.location.href = data.redirect)
+                    .catch(err => console.log(err))
+                }
+            }
+
         })
+
     </script>
+
+    <!-- Footer -->
+    <%- include('./partials/footer.ejs')  %> 
 </body>
 </html>

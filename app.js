@@ -14,6 +14,7 @@ const fs = require('fs');
 
 // Including mongoose schema
 const Blog = require('./models/blog');
+const Editor = require('./models/editor');
 const { render } = require('ejs');
 
 // express app
@@ -85,7 +86,6 @@ app.get('/blogs', (req, res) => {
 
 // saving the blog to db
 app.post('/blogs', upload.single('coverimage') , (req, res) => {
-    console.log(req.body);
     
     // const blog = new Blog(req.body);
     const newImage = new Blog({
@@ -112,21 +112,55 @@ app.get('/blogs/create', (req, res) => {
     res.render('create', {title: 'Create a New Blog'});
 })
 
+app.get('/blogs/create_editor', (req, res) => {
+    res.render('create_editor', {title: 'Create a New Blog'});
+})
+
+// saving the blog to db
+app.post('/blogs/create_editor', (req, res) => {
+    
+    const editor = new Editor(req.body);
+
+
+    editor.save()
+    .then((result) => {
+        res.redirect('/blogs')
+    })
+    .catch((err) => {
+        console.log(err)
+    });
+
+})
+
+
 // showing a single blog as the id
 app.get('/blogs/:id', (req, res) => {
     const id = req.params.id; 
-    // it means the :id provided with the address
-    Blog.findById(id)
+
+    Editor.find()
+    .then((ed) => {
+        // it means the :id provided with the address
+        var idArr = [];
+        ed.forEach(e => {
+            idArr.push(e);
+        })
+
+        console.log(idArr);
+
+        Blog.findById(id)
         .then(result => {
-            res.render('details', {blog: result, title: 'Blog Details'})
+            res.render('details', {blog: result, editors: idArr, title: 'Blog Details'})
         })
         .catch((err) => {
             console.log(err);
         })
+    })
+    
 })
 
 // Deletion of a blog
 app.delete('/blogs/:id', (req, res) => {
+
     const id = req.params.id; 
     Blog.findByIdAndDelete(id)
         .then(result => {

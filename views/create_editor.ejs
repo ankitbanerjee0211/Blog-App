@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Head -->
+<%- include('./partials/head.ejs')  %> 
+<body>
+    <!-- Navbar -->
+    <%- include('./partials/nav.ejs')  %> 
+
+    <div class="create-blog section">
+        <h2>Create a Editor:</h2>
+        <hr>
+        <form id="form1" action="/blogs/create_editor" method="POST">
+            <label for="username">Editor: </label>
+            <input type="text" name="username" id="username" required>
+            <label for="password">Password: </label>
+            <input type="text" name="password" id="password" required>
+            <button type="submit" id="submitbtn">Submit</button>
+            <br>
+            
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <%- include('./partials/footer.ejs') %> 
+
+    <!-- Including JS Files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<!-- <script src="/script.js"></script> -->
+
+</body>
+</html>
