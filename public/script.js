@@ -14,19 +14,6 @@ function addLink() {
 	formatDoc('createLink', url);
 }
 
-// submit
-
-function submitFunc() {
-	const b = content.innerHTML;
-	var input = document.createElement("textarea");
-	input.setAttribute('id','body');
-	input.setAttribute('name', 'body');
-	input.innerText = b;
-	form1.appendChild(input);
-
-	input.style.display = "none";
-}
-
 // resetText
 
 function resetText() {
@@ -46,40 +33,3 @@ content.addEventListener('mouseenter', function () {
 		})
 	})
 })
-
-
-
-// const showCode = document.getElementById('show-code');
-// let active = false;
-
-// showCode.addEventListener('click', function () {
-// 	showCode.dataset.active = !active;
-// 	active = !active
-// 	if(active) {
-// 		content.textContent = content.innerHTML;
-// 		content.setAttribute('contenteditable', false);
-// 	} else {
-// 		content.innerHTML = content.textContent;
-// 		content.setAttribute('contenteditable', true);
-// 	}
-// })
-
-
-
-// const filename = document.getElementById('filename');
-
-// function fileHandle(value) {
-// 	if(value === 'new') {
-// 		content.innerHTML = '';
-// 		filename.value = 'untitled';
-// 	} else if(value === 'txt') {
-// 		const blob = new Blob([content.innerText])
-// 		const url = URL.createObjectURL(blob)
-// 		const link = document.createElement('a');
-// 		link.href = url;
-// 		link.download = `${filename.value}.txt`;
-// 		link.click();
-// 	} else if(value === 'pdf') {
-// 		html2pdf(content).save(filename.value);
-// 	}
-// }

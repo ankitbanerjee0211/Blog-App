@@ -75,12 +75,12 @@ app.get('/about', (req, res) => {
 // getting all the blogs from db
 app.get('/blogs', (req, res) => {
     Blog.find().sort({ createdAt: -1 })
-        .then((result) => {
-            res.render('index', {title: 'Home | All Blogs', blogs: result});
-        })
-        .catch((err) => {
-            console.log(err); 
-        })
+    .then((result) => {
+        res.render('index', {title: 'Home | All Blogs', blogs: result});
+    })
+    .catch((err) => {
+        console.log(err); 
+    })
     // sorted by descending order of submission
 })
 
@@ -88,7 +88,7 @@ app.get('/blogs', (req, res) => {
 app.post('/blogs', upload.single('coverimage') , (req, res) => {
     
     // const blog = new Blog(req.body);
-    const newImage = new Blog({
+    const newBlog = new Blog({
         title: req.body.title,
         coverimage: req.file.originalname,
         snippet: req.body.snippet,
@@ -96,24 +96,32 @@ app.post('/blogs', upload.single('coverimage') , (req, res) => {
         body: req.body.body,
     });
 
-
-    newImage.save()
-    .then((result) => {
-        res.redirect('/blogs')
-    })
-    .catch((err) => {
-        console.log(err)
-    });
-
+    if(req.body.body != "false"){
+        newBlog.save()
+        .then((result) => {
+            res.redirect('/blogs')
+        })
+        .catch((err) => {
+            console.log(err)
+        });
+    } else{
+        res.redirect('/blogs/create');
+    }
 })
 
 
 app.get('/blogs/create', (req, res) => {
-    res.render('create', {title: 'Create a New Blog'});
+    Blog.find()
+    .then((result) => {
+        res.render('create', {title: 'Create a New Blog', blogs: result});
+    })
+    .catch((err) => {
+        console.log(err); 
+    })
 })
 
 app.get('/blogs/create_editor', (req, res) => {
-    res.render('create_editor', {title: 'Create a New Blog'});
+    res.render('create_editor', {title: 'Register an Editor'});
 })
 
 // saving the blog to db
@@ -145,7 +153,7 @@ app.get('/blogs/:id', (req, res) => {
             idArr.push(e);
         })
 
-        console.log(idArr);
+        // console.log(idArr);
 
         Blog.findById(id)
         .then(result => {

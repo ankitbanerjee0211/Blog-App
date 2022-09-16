@@ -6,8 +6,16 @@
     <!-- Navbar -->
     <%- include('./partials/nav.ejs')  %> 
 
+    <% var titlelist = []; %> 
+
+    <!-- We can also add @ at the end of each title -->
+    <% blogs.forEach(blog => { %>
+        <% titlelist[titlelist.length] = blog.title; %>
+    <% }) %>
+
     <div class="create-blog section">
-        <h2>Create a Blog:</h2>
+        <h2>Create Blog</h2>
+        <h6>Note: Duplicate titles are not allowed. Please refer to the <a href="/blogs" target="_blank">homepage</a>.</h6>
         <hr>
         <form id="form1" action="/blogs" method="POST" onsubmit="submitFunc()" enctype="multipart/form-data">
             <label for="title">Title: </label>
@@ -17,21 +25,13 @@
             <label for="author">Author: </label>
             <input type="text" name="author" id="author" required>
             <label for="coverimage">Upload a Cover Image:</label>
-            <input type="file" id="coverimage" name="coverimage">
+            <input type="file" id="coverimage" name="coverimage" required>
             <label for="body">Body: </label>
             <br>
             <!-- Text Editor -->
             <div class="text-editor">
                 <div class="toolbar">
                     <div class="head">
-                        <!-- We dont need filename part -->
-                        <!-- <input type="text" placeholder="Filename" value="untitled" id="filename">
-                        <select onchange="fileHandle(this.value); this.selectedIndex=0">
-                            <option value="" selected="" hidden="" disabled="">File</option>
-                            <option value="new">New file</option>
-                            <option value="txt">Save as txt</option>
-                            <option value="pdf">Save as pdf</option>
-                        </select> -->
 
                         <select onchange="formatDoc('formatBlock', this.value); this.selectedIndex=0;">
                             <option value="" selected="" hidden="" disabled="">Text Format</option>
@@ -82,20 +82,70 @@
                         <button onclick="formatDoc('insertUnorderedList')" type="button"><i class='bx bx-list-ul' ></i></button>
                         <button onclick="addLink()" type="button"><i class='bx bx-link' ></i></button>
                         <button onclick="formatDoc('unlink')" type="button"><i class='bx bx-unlink' ></i></button>
-                        <!-- <button id="show-code" data-active="false" type="button">&lt;/&gt;</button> -->
+                        
                     </div>
                 </div>
                 <div name="content" id="content" contenteditable="true" spellcheck="false">Start your blog here....</div>
             </div>
             <!-- Text Editor ends -->
 
-            <!-- <textarea name="body" id="body" required></textarea> -->
+            
             <div class="btn-container">
                 <button type="reset" onclick="resetText()" id="resetbtn">Reset</button>
                 <button type="submit" id="submitbtn">Submit</button>
             </div>
         </form>
     </div>
+
+    <script>
+        
+        // submit
+        function submitFunc() {
+            let titleStr = "<%= titlelist %>";
+            
+            const content = document.getElementById('content');
+            const form1 = document.getElementById('form1');
+            const title = document.getElementById("title");
+            let i=0;
+            let flag = true;
+
+            const b = content.innerHTML;
+            var input = document.createElement("textarea");
+            input.setAttribute('id','body');
+            input.setAttribute('name', 'body');
+            input.innerText = b;
+            
+            input.style.display = "none";
+            
+            for(let j=0; j<titleStr.length; j++){
+                if(titleStr.charAt(j) == ','){
+                    console.log(titleStr.substring(i, j));
+                    if(title.value == titleStr.substring(i, j)){
+                        flag = false;
+                        break;
+                    }
+                    i = j+1;
+                }
+            }
+            if(title.value == titleStr.substring(i)){
+                flag = false;
+            }
+
+            console.log(flag);
+
+
+
+            if(flag == false){
+                let str = "false";
+                input.innerText = str;
+                alert("Blog with same title name exists. Please change it and resubmit.");
+            }
+            form1.appendChild(input);
+
+            console.log(input.innerText);
+            
+        }
+    </script>
 
     <!-- Footer -->
     <%- include('./partials/footer.ejs') %> 

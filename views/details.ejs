@@ -45,7 +45,7 @@
             }
         }
         namelist.push(nameStr.substring(i));
-        console.log(namelist);
+        // console.log(namelist);
 
         i=0;
         for(let j=0; j<pwStr.length; j++){
@@ -55,7 +55,7 @@
             }
         }
         pwlist.push(pwStr.substring(i));
-        console.log(pwlist);
+        // console.log(pwlist);
 
         const trashcan = document.querySelector('a.delete');
         trashcan.addEventListener('click', (e) => {
@@ -66,8 +66,7 @@
             
             let flag = false;
             for (let i = 0; i < namelist.length; i++) {
-                console.log(namelist[i]);
-                console.log(pwlist[i]);
+
                 if(namelist[i] == un && pwlist[i] == pw){
                     flag = true;
                     fetch(endpoint, {

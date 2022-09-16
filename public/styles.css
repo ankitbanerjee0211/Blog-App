@@ -84,7 +84,7 @@ h3 {
 /* All Sections */
 .section{
     width: 85%;
-    margin: 3vw auto 5vw auto;
+    margin: 3vw auto 7vw auto;
 }
 
 /* index blogs */
@@ -313,6 +313,14 @@ textarea {
 }
 
 @media screen and (max-width: 600px){
+
+    /* Blogs */
+    .title{
+        font-size: 18px;
+    }
+    .heading{
+        font-size: 22px;
+    }
 
     
     /* nav */
