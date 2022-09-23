@@ -96,7 +96,7 @@ app.post('/blogs', upload.single('coverimage') , (req, res) => {
         body: req.body.body,
     });
 
-    if(req.body.body != "false"){
+    if(req.body.body != "false" && req.body.title != ""){
         newBlog.save()
         .then((result) => {
             res.redirect('/blogs')

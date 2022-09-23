@@ -15,7 +15,7 @@
 
     <div class="create-blog section">
         <h2>Create Blog</h2>
-        <h6>Note: Duplicate titles are not allowed. Please refer to the <a href="/blogs" target="_blank">homepage</a>.</h6>
+        <h6>Note: Duplicate titles are not allowed. There is only one chance to correct it. Please refer to the <a href="/blogs" target="_blank">homepage</a>.</h6>
         <hr>
         <form id="form1" action="/blogs" method="POST" onsubmit="submitFunc()" enctype="multipart/form-data">
             <label for="title">Title: </label>
@@ -131,18 +131,37 @@
                 flag = false;
             }
 
-            console.log(flag);
-
-
+            // console.log(flag);
 
             if(flag == false){
-                let str = "false";
-                input.innerText = str;
-                alert("Blog with same title name exists. Please change it and resubmit.");
+                
+                // Giving a chance to change the title name
+                title.value = prompt("Blog with same title name exists. Please change it and resubmit. Refer to the homepage: http://blog-aholic.herokuapp.com/blogs");
+                // revalidation
+                i=0;
+                flag = true;
+                for(let j=0; j<titleStr.length; j++){
+                    if(titleStr.charAt(j) == ','){
+                        console.log(titleStr.substring(i, j));
+                        if(title.value == titleStr.substring(i, j)){
+                            flag = false;
+                            break;
+                        }
+                        i = j+1;
+                    }
+                }
+                if(title.value == titleStr.substring(i)){
+                    flag = false;
+                }
+                if(flag == false){
+                    let str = "false";
+                    input.innerText = str;
+                }
+
             }
             form1.appendChild(input);
 
-            console.log(input.innerText);
+            // console.log(input.innerText);
             
         }
     </script>
